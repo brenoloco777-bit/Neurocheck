@@ -3,19 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neurocheck | Avaliação Neurocognitiva Profissional</title>
+    <title>Neurocheck | Avaliação TDAH</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        .bg-premium { background: radial-gradient(at top left, #f8faff, #f1f5f9 50%, #f8faff 100%); }
-        .glass { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.5); }
-        .btn-cooldown { filter: grayscale(1); opacity: 0.6; cursor: not-allowed; }
+        body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+        .btn-disabled { opacity: 0.5; cursor: not-allowed; filter: grayscale(1); }
+        .transition-all { transition: all 0.3s ease; }
     </style>
 </head>
-<body class="bg-premium min-h-screen text-slate-900">
-    <div id="app" class="max-w-xl mx-auto px-6 py-12">
+<body class="bg-white">
+    <div id="app" class="min-h-screen flex flex-col">
         </div>
 
     <script>
@@ -25,26 +24,26 @@
         let timer;
 
         const perguntas = [
-            "Dificuldade em focar em detalhes ou erros por descuido?",
-            "Dificuldade em manter a atenção em tarefas longas?",
-            "Parece não escutar quando falam diretamente com você?",
-            "Não segue instruções e não termina tarefas escolares/profissionais?",
-            "Dificuldade em organizar tarefas e atividades em sequência?",
-            "Evita tarefas que exigem esforço mental constante?",
-            "Perde frequentemente objetos necessários (chaves, documentos)?",
-            "Distrai-se facilmente por estímulos externos ou pensamentos?",
-            "Esquecimento frequente em atividades cotidianas?",
-            "Mexe mãos/pés ou se remexe na cadeira frequentemente?",
-            "Levanta-se em situações onde deve permanecer sentado?",
-            "Corre ou sobe em coisas em situações inapropriadas?",
-            "Dificuldade em brincar ou realizar lazer silenciosamente?",
-            "Está 'a mil por hora', como se movido por um motor?",
-            "Fala excessivamente sem perceber?",
-            "Responde perguntas antes mesmo de serem concluídas?",
+            "Dificuldade em manter a atenção em tarefas monótonas ou repetitivas?",
+            "Distração fácil com estímulos externos ou pensamentos irrelevantes?",
+            "Dificuldade em organizar tarefas e atividades do dia a dia?",
+            "Relutância em iniciar tarefas que exigem esforço mental prolongado?",
+            "Perda frequente de objetos necessários (chaves, documentos, celular)?",
+            "Esquecimento de compromissos ou tarefas cotidianas importantes?",
+            "Dificuldade em prestar atenção a detalhes, cometendo erros por descuido?",
+            "Parece não ouvir quando alguém fala diretamente com você?",
+            "Dificuldade em seguir instruções e terminar deveres ou tarefas?",
+            "Agita as mãos ou os pés, ou se remexe na cadeira?",
+            "Levanta-se da cadeira em situações onde se espera que fique sentado?",
+            "Sente-se inquieto ou corre em situações inapropriadas?",
+            "Dificuldade em realizar atividades de lazer silenciosamente?",
+            "Age como se estivesse 'ligado por um motor' ou a mil por hora?",
+            "Fala excessivamente em situações sociais ou de trabalho?",
+            "Responde a perguntas antes mesmo de serem concluídas?",
             "Dificuldade em esperar sua vez em filas ou conversas?",
-            "Interrompe ou se intromete em conversas/atividades alheias?",
-            "Sente fadiga mental extrema após reuniões ou aulas?",
-            "Dificuldade em priorizar o que é mais importante no dia?"
+            "Interrompe ou se intromete em conversas ou jogos de outros?",
+            "Dificuldade em priorizar o que é mais importante no momento?",
+            "Sente fadiga mental extrema após períodos curtos de concentração?"
         ];
 
         function render() {
@@ -52,126 +51,55 @@
             
             if (etapa === 'inicio') {
                 app.innerHTML = `
-                    <div class="text-center">
-                        <div class="flex justify-center mb-8">
-                            <div class="p-4 bg-white rounded-3xl shadow-sm border border-slate-100">
-                                <i data-lucide="brain" class="text-indigo-600 w-12 h-12"></i>
+                    <div class="flex-1 flex flex-col items-center justify-center px-6 max-w-xl mx-auto text-center">
+                        <div class="mb-6">
+                            <div class="w-12 h-12 bg-black rounded-xl flex items-center justify-center mx-auto shadow-sm">
+                                <i data-lucide="brain" class="text-white w-6 h-6"></i>
                             </div>
                         </div>
-                        <h1 class="text-4xl font-extrabold tracking-tight mb-4 text-slate-900">Neurocheck</h1>
-                        <p class="text-slate-500 mb-10 text-lg leading-relaxed px-4">Avaliação de perfil clínico para TDAH. Protocolo baseado em evidências neurocientíficas.</p>
+                        <h1 class="text-3xl font-bold tracking-tight text-slate-900 mb-3">Neurocheck</h1>
+                        <p class="text-slate-500 text-lg mb-8 leading-relaxed">
+                            Avaliação de TDAH baseada em critérios clínicos. Entenda seu perfil de foco e atenção em poucos minutos.
+                        </p>
                         
-                        <div class="space-y-4 mb-10">
-                            <div class="glass p-5 rounded-3xl flex items-center gap-4 text-left shadow-sm">
-                                <div class="bg-indigo-100 p-2 rounded-xl"><i data-lucide="clock" class="text-indigo-600 w-5 h-5"></i></div>
-                                <div><p class="font-bold text-sm">Tempo estimado</p><p class="text-xs text-slate-500">Aproximadamente 8 minutos.</p></div>
+                        <div class="w-full space-y-3 mb-10">
+                            <div class="flex items-center gap-4 p-4 rounded-2xl border border-slate-100 bg-slate-50/50">
+                                <i data-lucide="clock" class="text-slate-400 w-5 h-5"></i>
+                                <div class="text-left">
+                                    <p class="text-sm font-semibold">8 minutos</p>
+                                    <p class="text-xs text-slate-400">Tempo médio de resposta</p>
+                                </div>
                             </div>
-                            <div class="glass p-5 rounded-3xl flex items-center gap-4 text-left shadow-sm">
-                                <div class="bg-emerald-100 p-2 rounded-xl"><i data-lucide="file-check" class="text-emerald-600 w-5 h-5"></i></div>
-                                <div><p class="font-bold text-sm">Resultado Imediato</p><p class="text-xs text-slate-500">Relatório técnico detalhado em PDF.</p></div>
+                            <div class="flex items-center gap-4 p-4 rounded-2xl border border-slate-100 bg-slate-50/50">
+                                <i data-lucide="file-text" class="text-slate-400 w-5 h-5"></i>
+                                <div class="text-left">
+                                    <p class="text-sm font-semibold">20 questões</p>
+                                    <p class="text-xs text-slate-400">Protocolo clínico completo</p>
+                                </div>
                             </div>
                         </div>
 
-                        <button onclick="proximaEtapa('teste')" class="w-full bg-slate-900 text-white py-5 rounded-3xl font-bold text-lg hover:scale-[1.02] transition-all shadow-xl shadow-slate-200">
-                            Iniciar Avaliação
+                        <button onclick="proximaEtapa('teste')" class="w-full bg-slate-900 text-white py-4 rounded-xl font-semibold text-base hover:bg-slate-800 transition-all active:scale-[0.98]">
+                            Iniciar teste
                         </button>
                     </div>`;
             } else if (etapa === 'teste') {
                 const progresso = ((perguntaAtual + 1) / perguntas.length) * 100;
                 app.innerHTML = `
-                    <div class="mb-12">
-                        <div class="flex justify-between items-end mb-4 px-2">
-                            <span class="text-xs font-bold uppercase tracking-widest text-slate-400">Questão ${perguntaAtual + 1}/${perguntas.length}</span>
-                            <span class="text-xs font-bold text-indigo-600 bg-indigo-50 px-2 py-1 rounded-lg">${Math.round(progresso)}%</span>
-                        </div>
-                        <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden"><div class="bg-indigo-600 h-full transition-all duration-700" style="width: ${progresso}%"></div></div>
-                    </div>
-                    <div class="bg-white p-10 rounded-[40px] shadow-2xl shadow-slate-200 border border-slate-50">
-                        <h2 class="text-2xl font-bold text-slate-800 mb-10 leading-snug">${perguntas[perguntaAtual]}</h2>
-                        <div class="space-y-4" id="options-container">
-                            ${['Nunca', 'Raramente', 'Às vezes', 'Frequentemente', 'Muito Frequentemente'].map((l, i) => `
-                                <button onclick="${cooldown === 0 ? 'responder()' : ''}" class="option-btn w-full text-left p-5 rounded-2xl border-2 border-slate-50 bg-slate-50/50 hover:border-indigo-600 hover:bg-white transition-all text-slate-700 font-semibold ${cooldown > 0 ? 'btn-cooldown' : ''}">${l}</button>
-                            `).join('')}
-                        </div>
-                        ${cooldown > 0 ? `<p class="mt-6 text-center text-xs font-bold text-indigo-500 animate-pulse">Leia com atenção... Disponível em ${cooldown}s</p>` : ''}
-                    </div>`;
-            } else if (etapa === 'paywall') {
-                app.innerHTML = `
-                    <div class="text-center">
-                        <div class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-50 text-emerald-600 rounded-full text-xs font-bold mb-8">
-                            <i data-lucide="check-circle" class="w-4 h-4"></i> PROTOCOLO FINALIZADO
-                        </div>
-                        <h2 class="text-3xl font-black text-slate-900 mb-6">Seu Diagnóstico está Pronto</h2>
-                        
-                        <div class="bg-white p-8 rounded-[40px] shadow-2xl border-4 border-indigo-50 mb-8 relative">
-                            <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-amber-400 text-amber-900 px-6 py-1 rounded-full text-[10px] font-black uppercase">Promoção de Lançamento</div>
-                            
-                            <ul class="text-left space-y-5 mb-10 text-slate-600 py-4">
-                                <li class="flex items-center gap-4"><i data-lucide="activity" class="text-indigo-500 w-5 h-5"></i><span class="text-sm font-semibold">Análise de Nível de TDAH</span></li>
-                                <li class="flex items-center gap-4"><i data-lucide="brain-circuit" class="text-indigo-500 w-5 h-5"></i><span class="text-sm font-semibold">Mapeamento de Impulsividade</span></li>
-                                <li class="flex items-center gap-4"><i data-lucide="download" class="text-indigo-500 w-5 h-5"></i><span class="text-sm font-semibold">PDF para levar ao especialista</span></li>
-                            </ul>
-
-                            <div class="flex items-center justify-center gap-3 mb-8">
-                                <span class="text-slate-300 line-through text-lg font-bold">R$ 29,90</span>
-                                <span class="text-5xl font-black text-slate-900">R$ 9,49</span>
+                    <div class="max-w-xl mx-auto w-full px-6 py-12">
+                        <div class="mb-12">
+                            <div class="flex justify-between items-center mb-3">
+                                <span class="text-xs font-bold text-slate-400 uppercase tracking-tighter">Questão ${perguntaAtual + 1} de ${perguntas.length}</span>
+                                <span class="text-xs font-bold text-slate-900">${Math.round(progresso)}%</span>
                             </div>
-
-                            <button onclick="irParaCheckout()" class="w-full bg-slate-900 text-white py-6 rounded-3xl font-bold text-xl hover:bg-indigo-600 transition-all shadow-xl mb-6">
-                                Liberar Resultado
-                            </button>
-
-                            <div class="space-y-4">
-                                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest flex items-center justify-center gap-2">
-                                    <i data-lucide="lock" class="w-3 h-3"></i> Pagamento seguro processado pela Stripe
-                                </p>
-                                <div class="flex justify-center items-center gap-6 opacity-40 grayscale">
-                                    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a2/Logo%E2%80%94Pix.svg" class="h-4">
-                                    <i data-lucide="credit-card" class="w-6 h-6"></i>
-                                    <i data-lucide="qr-code" class="w-6 h-6"></i>
-                                </div>
+                            <div class="w-full bg-slate-100 h-1.5 rounded-full overflow-hidden">
+                                <div class="bg-black h-full transition-all duration-500" style="width: ${progresso}%"></div>
                             </div>
                         </div>
-                    </div>`;
-            }
-            lucide.createIcons();
-        }
 
-        function proximaEtapa(e) { 
-            etapa = e; 
-            if(e === 'teste') startCooldown();
-            render(); 
-        }
+                        <div class="min-h-[120px] flex items-center mb-10">
+                            <h2 class="text-2xl font-semibold text-slate-900 leading-tight">${perguntas[perguntaAtual]}</h2>
+                        </div>
 
-        function startCooldown() {
-            cooldown = 5;
-            clearInterval(timer);
-            timer = setInterval(() => {
-                cooldown--;
-                if(cooldown <= 0) {
-                    clearInterval(timer);
-                    cooldown = 0;
-                }
-                render();
-            }, 1000);
-        }
-
-        function responder() {
-            if (perguntaAtual < perguntas.length - 1) {
-                perguntaAtual++;
-                startCooldown();
-                render();
-            } else {
-                etapa = 'paywall';
-                render();
-            }
-        }
-
-        function irParaCheckout() {
-            alert("Redirecionando para o Checkout (PIX/Cartão)...");
-        }
-
-        render();
-    </script>
-</body>
-</html>
+                        <div class="space-y-3">
+                            ${['Nunca', 'Raramente', 'Às
