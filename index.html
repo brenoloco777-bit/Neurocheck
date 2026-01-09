@@ -3,124 +3,87 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Neurocheck - Avaliação TDAH</title>
+    <title>Neurocheck - Avaliação Especializada TDAH</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        .gradient-bg { background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 50%, #eef2ff 100%); }
-        .card-shadow { box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); }
+        body { font-family: 'Inter', sans-serif; }
+        .bg-soft { background: radial-gradient(circle at top right, #f0f4ff, #ffffff 50%, #fdfcff 100%); }
+        .glass-card { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); }
     </style>
 </head>
-<body class="gradient-bg min-h-screen font-sans">
+<body class="bg-soft min-h-screen">
     <div id="app" class="max-w-2xl mx-auto px-4 py-8">
         </div>
 
     <script>
-        // Dados do seu código original
-        const perguntas = [
-            "Com que frequência você tem dificuldade em manter a atenção em tarefas monótonas?",
-            "Com que frequência você se distrai facilmente com estímulos externos?",
-            "Com que frequência você tem dificuldade em organizar tarefas e atividades?",
-            "Com que frequência você evita tarefas que exigem esforço mental prolongado?",
-            "Com que frequência você perde objetos necessários para o dia a dia?",
-            "Com que frequência você se sente inquieto ou tem dificuldade em ficar parado?",
-            "Com que frequência você interrompe os outros ou tem dificuldade em esperar sua vez?",
-            "Com que frequência você tem dificuldade em seguir instruções?",
-            "Com que frequência você se sente mentalmente esgotado após se concentrar?",
-            "Com que frequência você esquece compromissos ou prazos importantes?",
-            "Com que frequência você tem dificuldade em relaxar no lazer?",
-            "Com que frequência você fala excessivamente em situações sociais?",
-            "Com que frequência você age impulsivamente?",
-            "Com que frequência você tem dificuldade em priorizar tarefas?",
-            "Com que frequência você se sente sobrecarregado pelas responsabilidades?"
-        ];
-
         let etapa = 'inicio';
         let perguntaAtual = 0;
-        let respostas = [];
+
+        const perguntas = [
+            "Dificuldade em manter a atenção em tarefas monótonas?",
+            "Distração fácil com estímulos externos ou pensamentos?",
+            "Dificuldade em organizar tarefas e prioridades?",
+            "Evita tarefas que exigem esforço mental prolongado?",
+            "Perda frequente de objetos necessários (chaves, celular)?",
+            "Inquietude motora ou dificuldade em ficar sentado?",
+            "Interrompe conversas ou completa frases dos outros?",
+            "Dificuldade em seguir instruções detalhadas?",
+            "Esquecimento de compromissos ou tarefas diárias?",
+            "Sente-se como se estivesse 'ligado por um motor'?",
+            "Dificuldade em esperar em filas ou turnos?",
+            "Fala excessiva em momentos inapropriados?",
+            "Dificuldade em relaxar durante o tempo livre?",
+            "Agir impulsivamente sem pensar nas consequências?",
+            "Sensação de sobrecarga com muitas responsabilidades?"
+        ];
 
         function render() {
             const app = document.getElementById('app');
             
             if (etapa === 'inicio') {
                 app.innerHTML = `
-                    <div class="text-center py-12">
-                        <div class="inline-block p-4 bg-indigo-600 rounded-2xl mb-6 shadow-lg">
-                            <i data-lucide="brain" class="text-white w-10 h-10"></i>
+                    <div class="text-center">
+                        <div class="flex justify-center mb-6">
+                            <div class="bg-indigo-50 p-3 rounded-2xl shadow-sm">
+                                <i data-lucide="brain" class="text-indigo-600 w-8 h-8"></i>
+                            </div>
                         </div>
-                        <h1 class="text-4xl font-bold text-slate-900 mb-4">Neurocheck</h1>
-                        <p class="text-lg text-slate-600 mb-8">Avaliação científica de TDAH com 15 perguntas fundamentais.</p>
-                        <div class="grid grid-cols-2 gap-4 mb-8 text-left">
-                            <div class="bg-white p-4 rounded-xl border border-slate-100"><i data-lucide="clock" class="text-indigo-600 mb-2"></i><p class="text-sm font-bold">5-7 Minutos</p></div>
-                            <div class="bg-white p-4 rounded-xl border border-slate-100"><i data-lucide="shield" class="text-emerald-600 mb-2"></i><p class="text-sm font-bold">Sigilo Total</p></div>
+                        <h1 class="text-3xl font-bold text-slate-800 mb-4">Avaliação de Perfil Neurocognitivo</h1>
+                        <p class="text-slate-500 mb-10 leading-relaxed">Entenda como seu cérebro processa o foco e a impulsividade através deste protocolo baseado em critérios clínicos.</p>
+                        
+                        <div class="grid grid-cols-2 gap-4 mb-10">
+                            <div class="glass-card p-4 rounded-2xl text-left">
+                                <i data-lucide="clock" class="text-indigo-500 w-5 h-5 mb-2"></i>
+                                <p class="text-sm font-semibold text-slate-700">Rápido</p>
+                                <p class="text-xs text-slate-500">Cerca de 5 min.</p>
+                            </div>
+                            <div class="glass-card p-4 rounded-2xl text-left">
+                                <i data-lucide="file-text" class="text-indigo-500 w-5 h-5 mb-2"></i>
+                                <p class="text-sm font-semibold text-slate-700">Completo</p>
+                                <p class="text-xs text-slate-500">Relatório em PDF.</p>
+                            </div>
                         </div>
-                        <button onclick="iniciar()" class="w-full bg-indigo-600 text-white py-4 rounded-xl font-bold text-lg hover:bg-indigo-700 transition-all shadow-lg">Iniciar Teste Gratuito</button>
+
+                        <button onclick="proximaEtapa('teste')" class="w-full bg-indigo-600 text-white py-4 rounded-2xl font-bold text-lg hover:shadow-xl hover:shadow-indigo-200 transition-all mb-12">
+                            Iniciar Avaliação Gratuita
+                        </button>
+
+                        <div class="space-y-4 text-left">
+                            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4 text-center">O que dizem nossos usuários</h3>
+                            <div class="bg-white/50 p-4 rounded-xl border border-white">
+                                <p class="text-sm text-slate-600 italic">"Finalmente entendi por que me sentia tão dispersa. O relatório me ajudou muito na conversa com meu médico."</p>
+                                <p class="text-xs font-bold text-indigo-600 mt-2">— Mariana S., 28 anos</p>
+                            </div>
+                            <div class="bg-white/50 p-4 rounded-xl border border-white">
+                                <p class="text-sm text-slate-600 italic">"Processo rápido e muito esclarecedor. Valeu cada centavo pela clareza que me trouxe."</p>
+                                <p class="text-xs font-bold text-indigo-600 mt-2">— Roberto F., 35 anos</p>
+                            </div>
+                        </div>
                     </div>`;
             } else if (etapa === 'teste') {
                 const progresso = ((perguntaAtual + 1) / perguntas.length) * 100;
                 app.innerHTML = `
-                    <div class="mb-8">
-                        <div class="flex justify-between mb-2 text-sm font-medium text-slate-500">
-                            <span>Questão ${perguntaAtual + 1} de 15</span>
-                            <span>${Math.round(progresso)}%</span>
-                        </div>
-                        <div class="w-full bg-slate-200 h-2 rounded-full"><div class="bg-indigo-600 h-2 rounded-full transition-all" style="width: ${progresso}%"></div></div>
-                    </div>
-                    <div class="bg-white p-8 rounded-3xl card-shadow border border-slate-50 mb-6">
-                        <h2 class="text-xl font-semibold text-slate-800 mb-8">${perguntas[perguntaAtual]}</h2>
-                        <div class="space-y-3">
-                            ${['Nunca', 'Raramente', 'Às vezes', 'Frequentemente', 'Muito Frequentemente'].map((label, i) => `
-                                <button onclick="responder(${i})" class="w-full text-left p-4 rounded-xl border-2 border-slate-100 hover:border-indigo-500 hover:bg-indigo-50 transition-all font-medium text-slate-700">${label}</button>
-                            `).join('')}
-                        </div>
-                    </div>`;
-            } else if (etapa === 'paywall') {
-                app.innerHTML = `
-                    <div class="text-center py-8">
-                        <div class="inline-block p-4 bg-emerald-500 rounded-full mb-6 shadow-lg">
-                            <i data-lucide="check-circle" class="text-white w-10 h-10"></i>
-                        </div>
-                        <h2 class="text-3xl font-bold text-slate-900 mb-4">Teste Concluído!</h2>
-                        <p class="text-slate-600 mb-8">Seu relatório detalhado está pronto para ser gerado.</p>
-                        <div class="bg-white p-6 rounded-2xl card-shadow border border-amber-100 mb-8">
-                            <div class="flex items-center justify-center gap-2 mb-4 text-amber-600 font-bold uppercase text-xs tracking-widest">
-                                <i data-lucide="sparkles" class="w-4 h-4"></i> Oferta Especial
-                            </div>
-                            <h3 class="text-xl font-bold mb-4">Relatório Completo de TDAH</h3>
-                            <ul class="text-left space-y-3 mb-6 text-slate-600">
-                                <li class="flex items-center gap-2"><i data-lucide="check" class="text-emerald-500"></i> Análise de Desatenção</li>
-                                <li class="flex items-center gap-2"><i data-lucide="check" class="text-emerald-500"></i> Análise de Hiperatividade</li>
-                                <li class="flex items-center gap-2"><i data-lucide="check" class="text-emerald-500"></i> PDF com Recomendações</li>
-                            </ul>
-                            <div class="text-3xl font-bold text-slate-900 mb-2">R$ 9,49</div>
-                            <button onclick="pagar()" class="w-full bg-gradient-to-r from-amber-500 to-orange-500 text-white py-4 rounded-xl font-bold text-lg shadow-lg">Obter Resultado Agora</button>
-                        </div>
-                    </div>`;
-            }
-            lucide.createIcons();
-        }
-
-        function iniciar() { etapa = 'teste'; render(); }
-        function responder(valor) {
-            respostas.push(valor);
-            if (perguntaAtual < perguntas.length - 1) {
-                perguntaAtual++;
-                render();
-            } else {
-                etapa = 'paywall';
-                render();
-            }
-        }
-        function pagar() {
-            const btn = event.target;
-            btn.innerHTML = "Processando...";
-            btn.disabled = true;
-            setTimeout(() => {
-                alert("Simulação de Pagamento: No sistema real, aqui você seria redirecionado ao diagnóstico pago.");
-            }, 2000);
-        }
-
-        render();
-    </script>
-</body>
-</html>
+                    <div class="mb-10">
+                        <div class="w-full bg-slate-200 h-1.5 rounded-full overflow-hidden">
