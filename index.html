@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
 import { Brain, ChevronRight, ChevronLeft, Sparkles, Shield, Clock, CheckCircle2 } from 'lucide-react';
 
 const perguntas = [
@@ -109,7 +108,7 @@ export default function TesteADHD() {
   // Tela Inicial
   if (etapa === 'inicio') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+      <div className="min-h-screen">
         <div className="max-w-4xl mx-auto px-4 py-12 md:py-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -199,7 +198,7 @@ export default function TesteADHD() {
   // Tela do Teste
   if (etapa === 'teste') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+      <div className="min-h-screen">
         <div className="max-w-2xl mx-auto px-4 py-8 md:py-12">
           {/* Header */}
           <div className="mb-8">
@@ -214,7 +213,12 @@ export default function TesteADHD() {
                 {perguntaAtual + 1} de {perguntas.length}
               </span>
             </div>
-            <Progress value={progresso} className="h-2 bg-slate-200" />
+            <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
+              <div 
+                className="h-full bg-gradient-to-r from-indigo-500 to-blue-500 transition-all duration-300"
+                style={{ width: `${progresso}%` }}
+              />
+            </div>
           </div>
 
           {/* Pergunta */}
@@ -297,7 +301,7 @@ export default function TesteADHD() {
   // Tela de Resultado
   if (etapa === 'resultado') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+      <div className="min-h-screen">
         <div className="max-w-2xl mx-auto px-4 py-12 md:py-20">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
