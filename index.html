@@ -6,22 +6,24 @@
     <title>Neurocheck | Avaliação TDAH</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/framer-motion@10.16.4/dist/framer-motion.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; background-color: #ffffff; }
-        .btn-disabled { opacity: 0.3; cursor: not-allowed; pointer-events: none; }
-        .transition-custom { transition: all 0.2s ease-in-out; }
+        body { font-family: 'Inter', sans-serif; -webkit-font-smoothing: antialiased; }
+        .bg-gradient-custom { background: linear-gradient(135deg, #f8fafc 0%, #eff6ff 50%, #eef2ff 100%); }
+        .btn-disabled { opacity: 0.5; cursor: not-allowed; pointer-events: none; filter: grayscale(1); }
+        .glass-card { background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255, 255, 255, 0.3); }
     </style>
 </head>
-<body class="bg-white">
-    <div id="app" class="min-h-screen flex flex-col">
-        </div>
+<body class="bg-gradient-custom min-h-screen">
+    <div id="app"></div>
 
     <script>
         let etapa = 'inicio';
         let perguntaAtual = 0;
         let cooldown = 5;
         let timer;
+        let respostas = {};
 
         const perguntas = [
             "Dificuldade em manter a atenção em tarefas monótonas ou repetitivas?",
@@ -51,151 +53,30 @@
             
             if (etapa === 'inicio') {
                 app.innerHTML = `
-                    <div class="flex-1 flex flex-col items-center justify-center px-6 max-w-[440px] mx-auto text-center">
-                        <div class="mb-8">
-                            <div class="w-14 h-14 bg-black rounded-2xl flex items-center justify-center mx-auto shadow-sm">
-                                <i data-lucide="brain" class="text-white w-7 h-7"></i>
-                            </div>
+                    <div class="max-w-4xl mx-auto px-4 py-12 md:py-20 text-center">
+                        <div class="inline-flex items-center justify-center w-20 h-20 rounded-2xl bg-gradient-to-br from-indigo-500 to-blue-600 shadow-xl shadow-indigo-200 mb-8">
+                            <i data-lucide="brain" class="text-white w-10 h-10"></i>
                         </div>
-                        <h1 class="text-[32px] font-bold tracking-tight text-slate-900 mb-4">Neurocheck</h1>
-                        <p class="text-slate-500 text-lg mb-10 leading-relaxed font-normal">
-                            Avaliação de TDAH baseada em critérios clínicos. Entenda seu perfil de foco e atenção em poucos minutos.
+                        <h1 class="text-4xl md:text-5xl font-bold text-slate-800 mb-4 tracking-tight">
+                            Teste de Avaliação <span class="block text-indigo-600">TDAH</span>
+                        </h1>
+                        <p class="text-lg text-slate-600 max-w-2xl mx-auto mb-12 leading-relaxed">
+                            Descubra se você apresenta sinais de Transtorno de Déficit de Atenção e Hiperatividade através de nossa avaliação científica com 20 perguntas baseadas em critérios clínicos.
                         </p>
-                        
-                        <div class="w-full space-y-3 mb-12">
-                            <div class="flex items-center gap-4 p-5 rounded-3xl border border-slate-100 bg-slate-50/40">
-                                <i data-lucide="clock" class="text-slate-400 w-5 h-5"></i>
-                                <div class="text-left">
-                                    <p class="text-sm font-semibold text-slate-900 leading-tight">8 minutos</p>
-                                    <p class="text-xs text-slate-400">Tempo médio de resposta</p>
+
+                        <div class="grid md:grid-cols-3 gap-6 mb-12 text-center">
+                            <div class="glass-card rounded-2xl p-6 shadow-sm border border-white">
+                                <div class="w-12 h-12 rounded-xl bg-indigo-100 flex items-center justify-center mb-4 mx-auto">
+                                    <i data-lucide="clock" class="text-indigo-600 w-6 h-6"></i>
                                 </div>
+                                <h3 class="font-semibold text-slate-800 mb-2">8 minutos</h3>
+                                <p class="text-sm text-slate-500">Tempo médio de resposta</p>
                             </div>
-                            <div class="flex items-center gap-4 p-5 rounded-3xl border border-slate-100 bg-slate-50/40">
-                                <i data-lucide="file-text" class="text-slate-400 w-5 h-5"></i>
-                                <div class="text-left">
-                                    <p class="text-sm font-semibold text-slate-900 leading-tight">20 questões</p>
-                                    <p class="text-xs text-slate-400">Protocolo clínico completo</p>
+                            <div class="glass-card rounded-2xl p-6 shadow-sm border border-white">
+                                <div class="w-12 h-12 rounded-xl bg-blue-100 flex items-center justify-center mb-4 mx-auto">
+                                    <i data-lucide="check-circle" class="text-blue-600 w-6 h-6"></i>
                                 </div>
+                                <h3 class="font-semibold text-slate-800 mb-2">20 Questões</h3>
+                                <p class="text-sm text-slate-500">Protocolo clínico completo</p>
                             </div>
-                        </div>
-
-                        <button onclick="proximaEtapa('teste')" class="w-full bg-black text-white py-[18px] rounded-2xl font-semibold text-base transition-custom active:scale-[0.97]">
-                            Iniciar teste
-                        </button>
-                    </div>`;
-            } else if (etapa === 'teste') {
-                const progresso = ((perguntaAtual + 1) / perguntas.length) * 100;
-                app.innerHTML = `
-                    <div class="max-w-xl mx-auto w-full px-8 py-12 flex flex-col min-h-screen">
-                        <div class="mb-14">
-                            <div class="flex justify-between items-center mb-4">
-                                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Pergunta ${perguntaAtual + 1} de ${perguntas.length}</span>
-                                <span class="text-[10px] font-bold text-slate-900">${Math.round(progresso)}%</span>
-                            </div>
-                            <div class="w-full bg-slate-100 h-[3px] rounded-full overflow-hidden">
-                                <div class="bg-black h-full transition-all duration-700" style="width: ${progresso}%"></div>
-                            </div>
-                        </div>
-
-                        <div class="flex-1">
-                            <h2 class="text-[26px] font-semibold text-slate-900 leading-tight mb-12 tracking-tight">${perguntas[perguntaAtual]}</h2>
-                            <div class="space-y-3">
-                                ${['Nunca', 'Raramente', 'Às vezes', 'Frequentemente', 'Muito frequentemente'].map((label) => `
-                                    <button 
-                                        onclick="responder()" 
-                                        class="w-full text-left p-5 rounded-2xl border border-slate-100 hover:border-black transition-custom font-medium text-slate-600 hover:text-black ${cooldown > 0 ? 'btn-disabled' : ''}">
-                                        ${label}
-                                    </button>
-                                `).join('')}
-                            </div>
-                        </div>
-                        
-                        <div class="pt-10 text-center">
-                            ${cooldown > 0 ? `
-                                <p class="text-sm font-medium text-slate-300">Aguarde ${cooldown}s para ler a questão...</p>
-                            ` : `
-                                <p class="text-sm font-medium text-slate-900 animate-pulse">Pode responder agora</p>
-                            `}
-                        </div>
-                    </div>`;
-            } else if (etapa === 'paywall') {
-                app.innerHTML = `
-                    <div class="max-w-md mx-auto w-full px-8 py-16 text-center">
-                        <div class="mb-8 flex justify-center">
-                            <div class="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center">
-                                <i data-lucide="check" class="text-slate-900 w-10 h-10"></i>
-                            </div>
-                        </div>
-                        <h2 class="text-3xl font-bold text-slate-900 mb-4">Relatório Pronto</h2>
-                        <p class="text-slate-500 mb-12">Analisamos suas respostas de acordo com o protocolo clínico.</p>
-                        
-                        <div class="bg-white p-10 rounded-[40px] border border-slate-100 shadow-2xl shadow-slate-200/50 relative">
-                            <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-black text-white px-5 py-1 rounded-full text-[10px] font-bold uppercase tracking-[0.1em]">Acesso Premium</div>
-                            
-                            <div class="text-left space-y-6 mb-12 pt-4">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center"><i data-lucide="bar-chart-3" class="w-4 h-4"></i></div>
-                                    <span class="text-sm font-medium text-slate-700 underline decoration-slate-100 underline-offset-8">Perfil de foco e impulsividade</span>
-                                </div>
-                                <div class="flex items-center gap-4">
-                                    <div class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center"><i data-lucide="file-text" class="w-4 h-4"></i></div>
-                                    <span class="text-sm font-medium text-slate-700 underline decoration-slate-100 underline-offset-8">Relatório técnico em PDF</span>
-                                </div>
-                            </div>
-
-                            <div class="mb-10">
-                                <p class="text-xs text-slate-300 line-through mb-1">R$ 29,90</p>
-                                <p class="text-5xl font-bold text-slate-900 tracking-tight">R$ 9,49</p>
-                            </div>
-
-                            <button onclick="alert('Indo para o Checkout Seguro...')" class="w-full bg-black text-white py-5 rounded-2xl font-bold text-lg hover:bg-slate-800 transition-custom mb-8">
-                                Obter meu resultado
-                            </button>
-
-                            <div class="flex flex-col items-center gap-4 opacity-30 grayscale">
-                                <div class="flex gap-6">
-                                    <i data-lucide="credit-card" class="w-6 h-6 text-slate-900"></i>
-                                    <i data-lucide="qr-code" class="w-6 h-6 text-slate-900"></i>
-                                </div>
-                                <p class="text-[9px] font-bold uppercase tracking-widest text-slate-500">Pagamento processado via Stripe</p>
-                            </div>
-                        </div>
-                    </div>`;
-            }
-            lucide.createIcons();
-        }
-
-        function proximaEtapa(e) { 
-            etapa = e; 
-            if(e === 'teste') startCooldown();
-            render(); 
-        }
-
-        function startCooldown() {
-            cooldown = 5;
-            clearInterval(timer);
-            timer = setInterval(() => {
-                cooldown--;
-                if(cooldown <= 0) {
-                    clearInterval(timer);
-                    cooldown = 0;
-                }
-                render();
-            }, 1000);
-        }
-
-        function responder() {
-            if (perguntaAtual < perguntas.length - 1) {
-                perguntaAtual++;
-                startCooldown();
-                render();
-            } else {
-                etapa = 'paywall';
-                render();
-            }
-        }
-
-        render();
-    </script>
-</body>
-</html>
+                            <div class="glass-card rounded-2xl p-6 shadow-
