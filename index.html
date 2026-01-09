@@ -114,4 +114,88 @@
                             ${cooldown > 0 ? `
                                 <p class="text-sm font-medium text-slate-300">Aguarde ${cooldown}s para ler a questão...</p>
                             ` : `
-                                <p class="text-sm font-medium text-slate-
+                                <p class="text-sm font-medium text-slate-900 animate-pulse">Pode responder agora</p>
+                            `}
+                        </div>
+                    </div>`;
+            } else if (etapa === 'paywall') {
+                app.innerHTML = `
+                    <div class="max-w-md mx-auto w-full px-8 py-16 text-center">
+                        <div class="mb-8 flex justify-center">
+                            <div class="w-20 h-20 bg-slate-50 rounded-full flex items-center justify-center">
+                                <i data-lucide="check" class="text-slate-900 w-10 h-10"></i>
+                            </div>
+                        </div>
+                        <h2 class="text-3xl font-bold text-slate-900 mb-4">Relatório Pronto</h2>
+                        <p class="text-slate-500 mb-12">Analisamos suas respostas de acordo com o protocolo clínico.</p>
+                        
+                        <div class="bg-white p-10 rounded-[40px] border border-slate-100 shadow-2xl shadow-slate-200/50 relative">
+                            <div class="absolute -top-3 left-1/2 -translate-x-1/2 bg-black text-white px-5 py-1 rounded-full text-[10px] font-bold uppercase tracking-[0.1em]">Acesso Premium</div>
+                            
+                            <div class="text-left space-y-6 mb-12 pt-4">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center"><i data-lucide="bar-chart-3" class="w-4 h-4"></i></div>
+                                    <span class="text-sm font-medium text-slate-700 underline decoration-slate-100 underline-offset-8">Perfil de foco e impulsividade</span>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <div class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center"><i data-lucide="file-text" class="w-4 h-4"></i></div>
+                                    <span class="text-sm font-medium text-slate-700 underline decoration-slate-100 underline-offset-8">Relatório técnico em PDF</span>
+                                </div>
+                            </div>
+
+                            <div class="mb-10">
+                                <p class="text-xs text-slate-300 line-through mb-1">R$ 29,90</p>
+                                <p class="text-5xl font-bold text-slate-900 tracking-tight">R$ 9,49</p>
+                            </div>
+
+                            <button onclick="alert('Indo para o Checkout Seguro...')" class="w-full bg-black text-white py-5 rounded-2xl font-bold text-lg hover:bg-slate-800 transition-custom mb-8">
+                                Obter meu resultado
+                            </button>
+
+                            <div class="flex flex-col items-center gap-4 opacity-30 grayscale">
+                                <div class="flex gap-6">
+                                    <i data-lucide="credit-card" class="w-6 h-6 text-slate-900"></i>
+                                    <i data-lucide="qr-code" class="w-6 h-6 text-slate-900"></i>
+                                </div>
+                                <p class="text-[9px] font-bold uppercase tracking-widest text-slate-500">Pagamento processado via Stripe</p>
+                            </div>
+                        </div>
+                    </div>`;
+            }
+            lucide.createIcons();
+        }
+
+        function proximaEtapa(e) { 
+            etapa = e; 
+            if(e === 'teste') startCooldown();
+            render(); 
+        }
+
+        function startCooldown() {
+            cooldown = 5;
+            clearInterval(timer);
+            timer = setInterval(() => {
+                cooldown--;
+                if(cooldown <= 0) {
+                    clearInterval(timer);
+                    cooldown = 0;
+                }
+                render();
+            }, 1000);
+        }
+
+        function responder() {
+            if (perguntaAtual < perguntas.length - 1) {
+                perguntaAtual++;
+                startCooldown();
+                render();
+            } else {
+                etapa = 'paywall';
+                render();
+            }
+        }
+
+        render();
+    </script>
+</body>
+</html>
