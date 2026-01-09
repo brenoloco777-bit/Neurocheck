@@ -79,4 +79,136 @@
                                 <h3 class="font-semibold text-slate-800 mb-2">20 Questões</h3>
                                 <p class="text-sm text-slate-500">Protocolo clínico completo</p>
                             </div>
-                            <div class="glass-card rounded-2xl p-6 shadow-
+                            <div class="glass-card rounded-2xl p-6 shadow-sm border border-white">
+                                <div class="w-12 h-12 rounded-xl bg-emerald-100 flex items-center justify-center mb-4 mx-auto">
+                                    <i data-lucide="shield" class="text-emerald-600 w-6 h-6"></i>
+                                </div>
+                                <h3 class="font-semibold text-slate-800 mb-2">100% Seguro</h3>
+                                <p class="text-sm text-slate-500">Privacidade garantida</p>
+                            </div>
+                        </div>
+
+                        <button onclick="iniciarTeste()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-10 py-5 rounded-2xl text-lg font-bold shadow-xl shadow-indigo-100 transition-all hover:scale-105">
+                            Iniciar teste
+                        </button>
+                    </div>`;
+            } else if (etapa === 'teste') {
+                const progresso = ((perguntaAtual + 1) / perguntas.length) * 100;
+                app.innerHTML = `
+                    <div class="max-w-2xl mx-auto px-4 py-12">
+                        <div class="mb-8 flex justify-between items-center">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-indigo-600 flex items-center justify-center text-white">
+                                    <i data-lucide="brain" class="w-5 h-5"></i>
+                                </div>
+                                <span class="font-bold text-slate-700">Neurocheck</span>
+                            </div>
+                            <span class="text-sm font-bold text-slate-400">QUESTÃO ${perguntaAtual + 1}/${perguntas.length}</span>
+                        </div>
+
+                        <div class="w-full bg-slate-200 h-2 rounded-full mb-12 overflow-hidden">
+                            <div class="bg-indigo-600 h-full transition-all duration-500" style="width: ${progresso}%"></div>
+                        </div>
+
+                        <div class="bg-white rounded-[32px] shadow-2xl shadow-slate-200/50 p-8 md:p-12 border border-slate-50">
+                            <h2 class="text-2xl font-bold text-slate-800 mb-10 leading-snug">${perguntas[perguntaAtual]}</h2>
+                            
+                            <div class="space-y-3">
+                                ${['Nunca', 'Raramente', 'Às vezes', 'Frequentemente', 'Muito frequentemente'].map((label) => `
+                                    <button onclick="${cooldown === 0 ? 'proximaPergunta()' : ''}" 
+                                        class="w-full text-left p-5 rounded-2xl border-2 border-slate-50 bg-slate-50/50 hover:border-indigo-500 hover:bg-white transition-all font-semibold text-slate-600 hover:text-indigo-600 ${cooldown > 0 ? 'btn-disabled' : ''}">
+                                        ${label}
+                                    </button>
+                                `).join('')}
+                            </div>
+
+                            <div class="mt-8 text-center">
+                                ${cooldown > 0 ? `
+                                    <p class="text-sm font-bold text-indigo-400 animate-pulse">Aguarde ${cooldown}s para responder...</p>
+                                ` : `
+                                    <p class="text-sm font-bold text-emerald-500 flex items-center justify-center gap-2">
+                                        <i data-lucide="unlock" class="w-4 h-4"></i> Pronto para responder
+                                    </p>
+                                `}
+                            </div>
+                        </div>
+                    </div>`;
+            } else if (etapa === 'resultado') {
+                app.innerHTML = `
+                    <div class="max-w-xl mx-auto px-4 py-16 text-center">
+                        <div class="w-20 h-20 bg-emerald-500 rounded-full flex items-center justify-center mx-auto mb-8 shadow-xl shadow-emerald-100">
+                            <i data-lucide="check" class="text-white w-10 h-10"></i>
+                        </div>
+                        <h2 class="text-3xl font-bold text-slate-900 mb-4">Avaliação Finalizada!</h2>
+                        <p class="text-slate-500 mb-12 leading-relaxed">Suas respostas foram processadas. O seu relatório técnico detalhado já está disponível para acesso.</p>
+                        
+                        <div class="bg-white p-10 rounded-[40px] shadow-2xl border-2 border-indigo-50 relative overflow-hidden">
+                            <div class="absolute top-0 right-0 bg-indigo-600 text-white px-6 py-1 text-[10px] font-black uppercase tracking-widest rounded-bl-2xl italic">Premium</div>
+                            
+                            <div class="text-left space-y-5 mb-10">
+                                <div class="flex items-center gap-4">
+                                    <div class="bg-indigo-50 p-2 rounded-lg"><i data-lucide="bar-chart-3" class="text-indigo-600 w-5 h-5"></i></div>
+                                    <span class="text-sm font-bold text-slate-700 underline decoration-indigo-100 underline-offset-8">Gráfico de intensidade de sintomas</span>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <div class="bg-indigo-50 p-2 rounded-lg"><i data-lucide="file-text" class="text-indigo-600 w-5 h-5"></i></div>
+                                    <span class="text-sm font-bold text-slate-700 underline decoration-indigo-100 underline-offset-8">Relatório técnico em PDF para download</span>
+                                </div>
+                            </div>
+
+                            <div class="mb-10">
+                                <span class="text-slate-300 line-through font-bold">R$ 29,90</span>
+                                <div class="text-5xl font-black text-slate-900 tracking-tighter">R$ 9,49</div>
+                            </div>
+
+                            <button onclick="alert('Ir para Stripe')" class="w-full bg-slate-900 text-white py-6 rounded-3xl font-bold text-xl hover:bg-indigo-600 transition-all shadow-xl shadow-slate-100 mb-8">
+                                Liberar Meu Resultado
+                            </button>
+
+                            <div class="flex flex-col items-center gap-4 opacity-40 grayscale">
+                                <div class="flex gap-6">
+                                    <i data-lucide="credit-card" class="w-6 h-6"></i>
+                                    <i data-lucide="qr-code" class="w-6 h-6"></i>
+                                </div>
+                                <p class="text-[9px] font-black uppercase tracking-[0.2em] text-slate-500">Pagamento Seguro Stripe</p>
+                            </div>
+                        </div>
+                    </div>`;
+            }
+            lucide.createIcons();
+        }
+
+        function iniciarTeste() {
+            etapa = 'teste';
+            startCooldown();
+            render();
+        }
+
+        function startCooldown() {
+            cooldown = 5;
+            clearInterval(timer);
+            timer = setInterval(() => {
+                cooldown--;
+                if(cooldown <= 0) {
+                    clearInterval(timer);
+                    cooldown = 0;
+                }
+                render();
+            }, 1000);
+        }
+
+        function proximaPergunta() {
+            if (perguntaAtual < perguntas.length - 1) {
+                perguntaAtual++;
+                startCooldown();
+                render();
+            } else {
+                etapa = 'resultado';
+                render();
+            }
+        }
+
+        render();
+    </script>
+</body>
+</html>
